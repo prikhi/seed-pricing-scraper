@@ -9,7 +9,11 @@ Welcome to SESE Price Scraper's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
+
+    overview
+    usage
+    api
 
 
 

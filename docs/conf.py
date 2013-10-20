@@ -23,6 +23,9 @@ import os
 
 # -- General configuration ------------------------------------------------
 
+# Add our project
+sys.path.append(os.path.abspath('../pricescraper'))
+
 # If your documentation needs a minimal Sphinx version, state it here.
 #needs_sphinx = '1.0'
 
