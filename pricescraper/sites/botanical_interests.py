@@ -67,7 +67,7 @@ class BotanicalInterests(BaseSite):
 
         :param search_page_html: The Search Results Page's HTML
         :type search_page_html: string
-        :returns: URL of the best match or None if no good match
+        :returns: Product Page HTML of the best match or None if no good match
         :rtype: string or :obj:`None`
         '''
         if self._NO_RESULT_TEXT in search_page_html:
