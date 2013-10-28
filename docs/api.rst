@@ -15,6 +15,23 @@ Scraper program.
 .. automodule:: product
     :members:
 
+.. _settings_module:
+
+:mod:`settings` Module
+-----------------------
+
+.. automodule:: settings
+    :members:
+
+
+.. _util_module:
+
+:mod:`util` Module
+-------------------
+
+.. automodule:: util
+    :members:
+
 
 .. _sites_module:
 
@@ -36,6 +53,16 @@ The :meth:`~sites.base.BaseSite.get_company_attributes` method from each child
 Class can be used to retrieve the information about the Other Company's
 Product.
 
+:mod:`~sites.base` Module
+++++++++++++++++++++++++++
+
 .. automodule:: sites.base
+    :members:
+    :private-members:
+
+:mod:`~sites.botanical_interests` Module
++++++++++++++++++++++++++++++++++++++++++
+
+.. automodule:: sites.botanical_interests
     :members:
     :private-members:

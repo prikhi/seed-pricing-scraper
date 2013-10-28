@@ -1,21 +1,9 @@
 #!/usr/bin/env python3
 '''
-This module describes the :class:`Product` class.
+The Product module holds a Class that define each of SESE's Products and the
+respective Products at Other Companies websites.
 '''
-
-
-attribute_to_name = {'sese_number': "SESE SKU",
-                     'sese_organic': "SESE Organic",
-                     'sese_name':   "SESE Name",
-                     'sese_category': "SESE Category",
-                     'name': "Name",
-                     'number': "ID#",
-                     'weight': "Weight",
-                     'price': "Price",
-                     'organic': "Organic"
-                     }
-'''A dictionary containing attributes as keys and their formal names as
-values'''
+import settings
 
 
 class Product(object):
@@ -73,27 +61,7 @@ class Product(object):
     .. attribute:: company_organic
 
         A company's organic status for their product
-
-    .. attribute:: _sese_header_order
-
-        A list of strings which defines the order that SESE attributes are
-        exported
-
-    .. attribute:: _company_header_order
-
-        A list of strings which defines the order that Other Companies are
-        exported
-
-    .. attribute:: _attribute_header_order
-
-        A list of strings which defines the order that Other Company attributes
-        are exported
-
     '''
-    _sese_header_order = ['sese_number', 'sese_organic', 'sese_name',
-                          'sese_category']
-    _company_header_order = ['bi']
-    _attribute_header_order = ['price', 'weight', 'number', 'name', 'organic']
 
     def __init__(self, number, name, category, organic):
         '''A Product object is initialized by setting the SESE attributes for
@@ -104,25 +72,24 @@ class Product(object):
         self.sese_category = category
         self.sese_organic = organic.lower() == 'true'
 
-    def create_header_list():
-        '''The ``create_header_list`` function is a :class:`Product`
-        classmethod that uses the :attr:`_sese_header_order`
-        :attr:`_company_header_order` and :attr:`_attribute_header_order` class
-        attributes to generate a list of Header strings for data export.
+    def get_attribute_list(self):
+        '''Return a list containing this Product's SESE and Other attributes
 
-        :returns: Ordered list of Header Name strings
+        This order of attributes in the list is determined by the
+        :attr:`_sese_header_order`, :attr:`_company_header_order` and
+        :attr:`_attribute_header_order` class attributes.
+
+        :returns: The SESE and Other Companies Attributes
         :rtype: :obj:`list`
         '''
-        header_list = []
-        for sese_header in Product._sese_header_order:
-            header_list.append(attribute_to_name[sese_header])
-        for company in Product._company_header_order:
-            company_abbrev = company.upper()
-            for attribute in Product._attribute_header_order:
-                attribute_name = attribute_to_name[attribute]
-                header_name = " ".join([company_abbrev, attribute_name])
-                header_list.append(header_name)
-        return header_list
+        attribute_list = list()
+        for sese_attribute in settings.SESE_HEADER_ORDER:
+            attribute_list.append(getattr(self, sese_attribute))
+        for company in settings.COMPANY_HEADER_ORDER:
+            for attribute in settings.ATTRIBUTE_HEADER_ORDER:
+                full_attribute = company + '_' + attribute
+                attribute_list.append(getattr(self, full_attribute))
+        return attribute_list
 
     def add_companys_product_attributes(self, company_abbrev, attribute_dict):
         '''The ``add_companys_product_attributes`` method uses an abbreviation
@@ -147,6 +114,6 @@ class Product(object):
                           ``attribute_dict``
         '''
         attribute_abbrev = company_abbrev.lower()
-        for attribute in Product._attribute_header_order:
+        for attribute in settings.ATTRIBUTE_HEADER_ORDER:
             company_attribute = attribute_abbrev + "_" + attribute
             setattr(self, company_attribute, attribute_dict[attribute])
