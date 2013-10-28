@@ -8,7 +8,7 @@ have.
 
 When run, the application reads a tab-delimited file containing the SKU#, name,
 category and organic status of each of our products. It uses this information
-to create a :class:`~product.Product` object for each SESE product.
+to create a :class:`~product.Product` object for each SESE variety.
 
 Each :class:`~product.Product` object creates a new object for each website to
 scrape. These objects are from classes that sub-class the
@@ -22,10 +22,10 @@ objects, the application runs through each :class:`~product.Product` object,
 creating a tab-delimited file as the output.
 
 In order to add additional websites for the application to scrape, a new
-website class should be created, sub-classing :class:`~sites.base.BaseSite`.
-Next, the :mod:`settings` module should be edited so that the
-:data:`~settings.COMPANY_HEADER_ORDER` setting contains the abbreviation of the
-new website, and the :data:`~settings.COMPANIES_TO_PROCESS` setting contains the
-path to the website's implementation class, for example
+website class should be created, sub-classing the :class:`~sites.base.BaseSite`
+class and overriding it's abstract methods.  Next, the :mod:`settings` module
+should be edited so that the :data:`~settings.COMPANY_HEADER_ORDER` setting
+contains the abbreviation of the new website, and the
+:data:`~settings.COMPANIES_TO_PROCESS` setting contains the path to the
+website's implementation class, for example
 ``sites.botanical_interests.BotanicalInterests``.
-

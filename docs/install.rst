@@ -12,8 +12,17 @@ on your system:
 * python3
 * pip or setuptools
 
-Optionally, the virtualenv and virtualenvwrapper packages will make dependency
-management and isolation much easier.
+Optionally, virtualenv and virtualenvwrapper will make dependency management
+and isolation much easier.
+
+These can be installed using your systems package manager. Virtualenv and
+Virtualenvwrapper can be installed using pip. For example, Arch Linux users can
+simply run the following:
+
+.. code-block:: sh
+
+    $ sudo pacman -S python pip3 git
+    $ sudo pip install virtualenv virtualenvwrapper
 
 Once you have these dependencies, you should clone the source code repository:
 
@@ -47,5 +56,5 @@ application using a valid input file(tab-delimited, containing a header row
 and columns for SESE SKU, Organic Status, Name and Category):
 
 .. code-block:: sh
-    
+
     $ python3 pricescraper/price_scraper.py
