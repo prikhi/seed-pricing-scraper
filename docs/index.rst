@@ -12,7 +12,7 @@ Contents:
     :maxdepth: 2
 
     overview
-    installation
+    install
     usage
     api
 
