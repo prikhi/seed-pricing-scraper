@@ -15,6 +15,7 @@ class BaseSiteTests(unittest.TestCase):
         def __init__(self, *args, **kwargs):
             super(BaseSiteTests.MockSite, self).__init__(*args, **kwargs)
             self.page_html = ''
+
         def _find_product_page(self):
             pass
 

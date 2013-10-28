@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-The Product module holds a Class that define each of SESE's Products and the
+The Product module holds the class that defines each of SESE's Products and the
 respective Products at Other Companies websites.
 '''
 import settings
@@ -76,8 +76,9 @@ class Product(object):
         '''Return a list containing this Product's SESE and Other attributes
 
         This order of attributes in the list is determined by the
-        :attr:`_sese_header_order`, :attr:`_company_header_order` and
-        :attr:`_attribute_header_order` class attributes.
+        :data:`~settings.SESE_HEADER_ORDER`,
+        :data:`~settings.COMPANY_HEADER_ORDER` and
+        :data:`~settings.ATTRIBUTE_HEADER_ORDER` class attributes.
 
         :returns: The SESE and Other Companies Attributes
         :rtype: :obj:`list`
@@ -96,22 +97,19 @@ class Product(object):
         and dictionary of attributes to dynamically add an Other Company's
         product information to the Product object.
 
-        The added attributes are defined by the :attr:`_attribute_header_order`
-        Product class attribute and the ``attribute_dict`` parameter must use
-        all the strings in the :attr:`_attribute_header_order` or a
-        :class:`KeyError` will be raised.
+        The added attributes are defined by the
+        :data:`~settings.ATTRIBUTE_HEADER_ORDER` setting and the
+        ``attribute_dict`` parameter should use all the strings in the
+        :data:`~settings.ATTRIBUTE_HEADER_ORDER`.
 
         :param company_abbrev: The company's abbreviation, this is used as a
                                prefix for each new attribute
         :type company_abbrev: string
         :param attribute_dict: A dictionary using attributes from
-                               :attr:`_attribute_header_order` as keys and the
-                               company's product information as values
+                               :data:`~settings.ATTRIBUTE_HEADER_ORDER` as keys
+                               and the company's product information as values
         :type attribute_dict: dict
         :returns: :obj:`None`
-        :raises KeyError: if an attribute in the
-                          :attr:`_attribute_header_order` is not defined in the
-                          ``attribute_dict``
         '''
         attribute_abbrev = company_abbrev.lower()
         for attribute in settings.ATTRIBUTE_HEADER_ORDER:
