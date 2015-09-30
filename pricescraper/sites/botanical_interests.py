@@ -13,7 +13,7 @@ SEARCH_URL = 'http://www.botanicalinterests.com/products/index/srch:'
 NO_RESULT_TEXT = ("Sorry, we couldn’t find any pages that matched your "
                   "criteria.")
 
-TITLE_REGEX = r'<title>(.*?) \|'
+TITLE_REGEX = r'<title>\s*(.*?) \|'
 NUMBER_REGEX = r'<p class="item_num">Item #(\d+)<\/p>'
 PRICE_REGEX = r'<h2>\$(\d+\.\d\d).*?<\/h2>'
 WEIGHT_REGEX = r'<p>((\d+.\d\d) grams|(\d+) seeds)<\/p>'
