@@ -2,8 +2,9 @@
 '''This module defines the Abstract Class all new Websites should sub-class'''
 from abc import abstractmethod, ABCMeta
 import re
+import urllib.parse
 
-from util import remove_punctuation
+from util import remove_punctuation, get_page_html
 
 
 class BaseSite(object):
@@ -14,6 +15,10 @@ class BaseSite(object):
 
     The product page searching and parsing methods must be implemented by any
     of this Classes children.
+
+    The ABBREVIATION class attribute must be set & unique for all Sites. The
+    SEARCH_URL attribute must be set if the _search_site method is called.
+
     '''
     __metaclass__ = ABCMeta
 
@@ -70,6 +75,21 @@ class BaseSite(object):
         self.organic = self._parse_organic_status_from_product_page()
         self.price = self._parse_price_from_product_page()
         self.weight = self._parse_weight_from_product_page()
+
+    def _search_site(self, search_terms):
+        '''Return the HTML from searching SEARCH_URL using ``search_terms``.
+
+        Requires the class to have a SEARCH_URL attribute.
+
+        :param search_terms: The keywords to search for
+        :type search_terms: str
+        :returns: The Search Result Page's HTML
+        :rtype: :obj:`str`
+        '''
+        assert(hasattr(self, 'SEARCH_URL'))
+        escaped_keywords = urllib.parse.quote(search_terms)
+        search_url = self.SEARCH_URL.format(escaped_keywords)
+        return get_page_html(search_url)
 
     @abstractmethod
     def _get_best_match_or_none(self, search_page_html):

@@ -19,23 +19,6 @@ PRICE_REGEX = r'<h2>\$(\d+\.\d\d).*?<\/h2>'
 WEIGHT_REGEX = r'<p>((\d+.\d\d) grams|(\d+) seeds)<\/p>'
 
 
-def search_site(search_terms):
-    '''Search the BotanicalInterests website for ``search_terms``
-
-    The string ``/num:high`` is added to the search URL to have the search
-    return 100 results per page.
-
-    :param search_terms: The keywords to search for
-    :type search_terms: str
-    :returns: The Search Result Page's HTML
-    :rtype: :obj:`str`
-    '''
-    escaped_keywords = urllib.parse.quote(search_terms,
-                                          encoding='iso-8859-1')
-    search_url = SEARCH_URL + escaped_keywords + "/num:high"
-    return get_page_html(search_url)
-
-
 def get_results_from_search_page(search_page_html):
     '''Parse the Search Page, creating a list of URLs and Product Names
 
@@ -53,6 +36,7 @@ def get_results_from_search_page(search_page_html):
 class BotanicalInterests(BaseSite):
     '''This class scrapes Product data from BotanicalInterests.com'''
     ABBREVIATION = 'bi'
+    SEARCH_URL = 'http://www.botanicalinterests.com/products/index/srch:{}/num:high'
 
     def _find_product_page(self):
         '''Find the best matching Product and return the Product Page's HTML
@@ -74,7 +58,7 @@ class BotanicalInterests(BaseSite):
         search_term = self.sese_name + " " + self.sese_category
         if self.sese_organic:
             search_term += " Organic"
-        search = search_site(search_term)
+        search = self._search_site(search_term)
         matching_page = self._get_best_match_or_none(search)
         return matching_page
 
