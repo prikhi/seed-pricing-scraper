@@ -5,13 +5,7 @@ import re
 import urllib.parse
 
 from .base import BaseSite
-from util import get_page_html, remove_punctuation
 
-
-ROOT_URL = 'http://www.botanicalinterests.com'
-SEARCH_URL = 'http://www.botanicalinterests.com/products/index/srch:'
-NO_RESULT_TEXT = ("Sorry, we couldn’t find any pages that matched your "
-                  "criteria.")
 
 TITLE_REGEX = r'<title>\s*(.*?) \|'
 NUMBER_REGEX = r'<p class="item_num">Item #(\d+)<\/p>'
@@ -19,24 +13,13 @@ PRICE_REGEX = r'<h2>\$(\d+\.\d\d).*?<\/h2>'
 WEIGHT_REGEX = r'<p>((\d+.\d\d) grams|(\d+) seeds)<\/p>'
 
 
-def get_results_from_search_page(search_page_html):
-    '''Parse the Search Page, creating a list of URLs and Product Names
-
-    :param search_page_html: The Search Results Page's HTML
-    :type search_page_html: str
-    :returns: A list containing each Product's URL and Name
-    :rtype: :obj:`list`
-    '''
-    product_regex = re.compile(
-        r'class="list-thumb">\s*?<a href="(.*?)".*?>(.*?)<\/a>'
-    )
-    return product_regex.findall(search_page_html)
-
-
 class BotanicalInterests(BaseSite):
     '''This class scrapes Product data from BotanicalInterests.com'''
     ABBREVIATION = 'bi'
-    SEARCH_URL = 'http://www.botanicalinterests.com/products/index/srch:{}/num:high'
+    ROOT_URL = 'http://www.botanicalinterests.com'
+    SEARCH_URL = ROOT_URL + '/products/index/srch:{}/num:high'
+    NO_RESULT_TEXT = (
+        "Sorry, we couldn’t find any pages that matched your criteria.")
 
     def _find_product_page(self):
         '''Find the best matching Product and return the Product Page's HTML
@@ -62,38 +45,18 @@ class BotanicalInterests(BaseSite):
         matching_page = self._get_best_match_or_none(search)
         return matching_page
 
-    def _get_best_match_or_none(self, search_page_html):
-        '''Attempt to find the best match on the Search Results HTML
-
-        The method will first attempt to find a Product that contains the name
-        of the SESE variety. Otherwise it will use the Product with the most
-        words in common with the SESE variety name, if it matches at least 25%
-        of the words.
-
-        If no results are found, the method will return :obj:`None`.
+    def _get_results_from_search_page(self, search_page_html):
+        '''Parse the Search Page, creating a list of URLs and Product Names
 
         :param search_page_html: The Search Results Page's HTML
         :type search_page_html: str
-        :returns: Product Page HTML of the best match or :obj:`None` if no good
-                  match is found
-        :rtype: :obj:`str`
+        :returns: A list containing each Product's URL and Name
+        :rtype: :obj:`list`
         '''
-        if NO_RESULT_TEXT in search_page_html:
-            return None
-        products = get_results_from_search_page(search_page_html)
-        for product in products:
-            relative_url, product_name = product
-            clean_product_name = remove_punctuation(product_name).lower()
-            clean_sese_name = remove_punctuation(self.sese_name).lower()
-            if clean_sese_name in clean_product_name:
-                page_url = ROOT_URL + relative_url
-                return get_page_html(page_url)
-        product_ranks = self._prepend_name_match_amounts(products)
-        best_match = product_ranks[0]
-        match_amount = best_match[0]
-        if match_amount >= 36:
-            match_url = ROOT_URL + best_match[1][0]
-            return get_page_html(match_url)
+        product_regex = re.compile(
+            r'class="list-thumb">\s*?<a href="(.*?)".*?>(.*?)<\/a>'
+        )
+        return product_regex.findall(search_page_html)
 
     def _parse_name_from_product_page(self):
         '''Use the Product Page's Title to determine the Variety Name
