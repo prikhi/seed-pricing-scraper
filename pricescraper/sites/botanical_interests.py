@@ -111,46 +111,6 @@ class BotanicalInterests(BaseSite):
             match_url = ROOT_URL + best_match[1][0]
             return get_page_html(match_url)
 
-    def _prepend_name_match_amounts(self, search_results):
-        '''Prepend the % of SESE Name matched to the ``search_results`` list
-
-        This method iterates through the provided ``search_results`` comparing
-        BotanicalInterests Product Name with the SESE Product Name by
-        calculating the percentage of words in the BI Name that are also in the
-        SESE Name.
-
-        The match percentage will be prepended to each :obj:`tuple` in the
-        ``search_results`` returning a list of ``[(Match Percentage, (URL,
-        Name)),...]``
-
-        :param search_results: A list of tuples containing the ``(URL, Name)``
-                               of each matching Product
-        :type search_results: list
-        :returns: A list of tupes containing ``(Match%, (URL, Name))`` of each
-                  Product
-        :rtype: :obj:`list`
-        '''
-        name_words = [remove_punctuation(x) for x in
-                      self.sese_name.lower().split() +
-                      self.sese_category.lower().split()]
-        name_length = len(name_words)
-        output = list()
-        for result in search_results:
-            matches = 0
-            result_words = [remove_punctuation(x) for x in
-                            result[1].lower().split()]
-            result_length = len(result_words)
-            for word in result_words:
-                if word in name_words:
-                    matches += 1
-            match_amount = ((matches * 100.0 / result_length) *
-                            (result_length / name_length) +
-                            min(matches * 100.0 / name_length, 100) *
-                            (name_length / result_length)) / 2
-            output.append((match_amount, result))
-        output.sort(key=lambda x: x[0], reverse=True)
-        return output
-
     def _parse_name_from_product_page(self):
         '''Use the Product Page's Title to determine the Variety Name
 
@@ -196,14 +156,3 @@ class BotanicalInterests(BaseSite):
         :rtype: :obj:`str`
         '''
         return self._get_match_from_product_page(WEIGHT_REGEX)
-
-    def _get_match_from_product_page(self, regex_string):
-        '''Search the Product Page's HTML for the `regex_string`
-
-        :returns: The first match to the Regular Expression or :obj:`None`
-        :rtype: :obj:`str`
-        '''
-        regex = re.compile(regex_string)
-        match = regex.search(self.page_html)
-        if match is not None and match.group(0) is not '':
-            return match.group(1)

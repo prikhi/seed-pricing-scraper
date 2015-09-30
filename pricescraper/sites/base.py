@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 '''This module defines the Abstract Class all new Websites should sub-class'''
 from abc import abstractmethod, ABCMeta
+import re
+
+from util import remove_punctuation
 
 
 class BaseSite(object):
@@ -78,6 +81,60 @@ class BaseSite(object):
         :rtype: :obj:`str`
         '''
 
+    def _prepend_name_match_amounts(self, search_results):
+        '''Prepend the % of SESE Name matched to the ``search_results`` list.
+
+        ``search_results`` should be a list of (URL, Name) tuples.
+
+        This method iterates through the provided ``search_results`` comparing
+        the Product Name with the SESE Product Name by calculating the
+        percentage of words in the Company's Name that are also in the SESE
+        Name.
+
+        The match percentage will be prepended to each :obj:`tuple` in the
+        ``search_results`` returning a list of ``[(Match Percentage, (URL,
+        Name)),...]``
+
+        :param search_results: A list of tuples containing the ``(URL, Name)``
+                               of each matching Product
+        :type search_results: list
+        :returns: A list of tupes containing ``(Match%, (URL, Name))`` of each
+                  Product
+        :rtype: :obj:`list`
+
+        '''
+        sese_words = [remove_punctuation(x) for x in
+                      self.sese_name.lower().split() +
+                      self.sese_category.lower().split()]
+        number_of_sese_words = len(sese_words)
+        output = []
+        for result in search_results:
+            number_of_matches = 0
+            site_words = [remove_punctuation(x) for x in
+                          result[1].lower().split()]
+            number_of_site_words = len(site_words)
+
+            for word in site_words:
+                if word in sese_words:
+                    number_of_matches += 1
+
+            percent_site_words_matched = (
+                float(number_of_matches) / number_of_site_words * 100)
+            site_to_sese_word_ratio = (
+                float(number_of_site_words) / number_of_sese_words)
+            percent_sese_words_matched = min(
+                float(number_of_matches) / number_of_sese_words * 100, 100)
+            sese_to_site_word_ratio = (
+                float(number_of_sese_words) / number_of_site_words)
+
+            match_percentage = (
+                percent_site_words_matched * site_to_sese_word_ratio +
+                percent_sese_words_matched * sese_to_site_word_ratio
+            ) / 2
+            output.append((match_percentage, result))
+        output.sort(key=lambda x: x[0], reverse=True)
+        return output
+
     @abstractmethod
     def _parse_name_from_product_page(self):
         '''Parse the Product's Name from the Product Page HTML
@@ -117,3 +174,13 @@ class BaseSite(object):
         :returns: The Product's Weight
         :rtype: :obj:`str`
         '''
+
+    def _get_match_from_product_page(self, regex_string):
+        '''Return the first group from the regex in the Product Page's HTML.
+
+        :returns: The first match to the Regular Expression or :obj:`None`
+        :rtype: :obj:`str`
+        '''
+        match = re.search(regex_string, self.page_html)
+        if match is not None and match.group(0) is not '':
+            return match.group(1)
