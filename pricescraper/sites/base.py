@@ -18,7 +18,7 @@ class BaseSite(object):
     __metaclass__ = ABCMeta
 
     def __init__(self, name, category, organic):
-        '''The Constructor sets the supplied variables as SESE's attributes
+        '''The Constructor sets the supplied variables as SESE's attributes.
 
         :param name: SESE's name for this Product
         :type name: str
@@ -50,7 +50,7 @@ class BaseSite(object):
     def _find_product_page(self):
         '''Find the Product Page from the Company's website.
 
-        :returns: The Product Page's HTML
+        :returns: The Product Page's HTML or :obj:`None`
         :rtype: :obj:`str`
         '''
 

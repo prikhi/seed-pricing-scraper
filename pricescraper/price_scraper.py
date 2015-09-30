@@ -1,21 +1,19 @@
 #!/usr/bin/env python3
 '''
 This Script pulls data about the Price and Weight of Seed Packets from
-BotanicalInterests.com
+various Seed Companies.
 
 It requires a file named `input.csv` to be in the same directory.
 This `input.csv` file should be a Tab-delimited CSV, with fields for each
 Product's SKU, Organic Status(True or False), Variety Name and Category.
 
-The Script will take these Products, search BotanicalInterests.com using the
-Variety Name and Category, and create a Tab-delimited CSV containing BI.com's
-Packet Price, Packet Weight, Item Number, Item Name and Organic Status.
+The Script will take these Products, search the sites using the Variety Name
+and Category, and create a Tab-delimited CSV containing each site's Packet
+Price, Packet Weight, Item Number, Item Name and Organic Status.
 
 The Script uses best matches, not exact matches, so the data should be reviewed
 afterwards.
 
-
-Written by Pavan Rikhi<pavan.rikhi@gmail.com> on 10/10/2013 for Acorn Community
 '''
 import csv
 
