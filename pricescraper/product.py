@@ -21,6 +21,7 @@ class Product(object):
     most similar variety. The current abbreviations/initials are:
 
     * ``bi`` - BotanicalInterests
+    * ``fs`` - FedcoSeeds
 
 
     .. attribute:: sese_name

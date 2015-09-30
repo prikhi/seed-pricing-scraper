@@ -8,10 +8,12 @@ MINIMUM_NAME_MATCHING_PERCENTAGE = 36
 #: The Other Company's to process (by path to Class)
 COMPANIES_TO_PROCESS = [
     'sites.botanical_interests.BotanicalInterests',
+    'sites.fedco_seeds.FedcoSeeds'
 ]
 
 #: The output order of the Other Companies (by abbrieviation)
 COMPANY_HEADER_ORDER = (
+    'fs',
     'bi',
 )
 

@@ -66,3 +66,10 @@ Product.
 .. automodule:: sites.botanical_interests
     :members:
     :private-members:
+
+:mod:`~sites.fedco_seeds` Module
++++++++++++++++++++++++++++++++++++++++++
+
+.. automodule:: sites.fedco_seeds
+    :members:
+    :private-members:
