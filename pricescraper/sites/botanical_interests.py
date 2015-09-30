@@ -2,7 +2,6 @@
 '''This module defines scraping information for BotanicalInterests.com'''
 
 import re
-import urllib.parse
 
 from .base import BaseSite
 
