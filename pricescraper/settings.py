@@ -1,6 +1,9 @@
 '''This module defines the basic settings used throughout the application.'''
 
 
+#: The minimum percentage of words in common between SESE's and Other Company's
+#  Product names for them to be considered a match.
+MINIMUM_NAME_MATCHING_PERCENTAGE = 36
 
 #: The Other Company's to process (by path to Class)
 COMPANIES_TO_PROCESS = [

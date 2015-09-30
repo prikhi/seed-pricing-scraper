@@ -4,6 +4,7 @@ from abc import abstractmethod, ABCMeta
 import re
 import urllib.parse
 
+import settings
 from util import remove_punctuation, get_page_html
 
 
@@ -139,7 +140,7 @@ class BaseSite(object):
         product_ranks = self._prepend_name_match_amounts(products)
         best_match = product_ranks[0]
         match_amount = best_match[0]
-        if match_amount >= 36:
+        if match_amount >= settings.MINIMUM_NAME_MATCHING_PERCENTAGE:
             match_url = self.ROOT_URL + best_match[1][0]
             return get_page_html(match_url)
 
