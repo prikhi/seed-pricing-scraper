@@ -27,12 +27,12 @@ class BaseSite(object):
     ROOT_URL = None
 
     #: The URL for searching the Site, with a pair of braces for inserting the
-    #  query using the .format() method. For example,
-    #  ``"http://mysite.com?q={}"``.
+    #: query using the .format() method. For example,
+    #: ``"http://mysite.com?q={}"``.
     SEARCH_URL = None
 
     #: Unique text present on the Site when there are no search results,
-    #  setting this is optional.
+    #: setting this is optional.
     NO_RESULT_TEXT = None
 
     def __init__(self, name, category, organic):
@@ -66,7 +66,10 @@ class BaseSite(object):
 
     @abstractmethod
     def _find_product_page(self):
-        '''Find the Product Page from the Company's website.
+        '''Abstract - Find the Product Page from the Company's website.
+
+        A Site's implementation of this method usually involves calling
+        :meth:`_search_site` and :meth:`_get_best_match_or_none`.
 
         :returns: The Product Page's HTML or :obj:`None`
         :rtype: :obj:`str`
@@ -146,7 +149,7 @@ class BaseSite(object):
 
     @abstractmethod
     def _get_results_from_search_page(self, search_page_html):
-        '''Parse the Search Page, creating a list of URLs and Product Names
+        '''Abstract - Parse a list of URLs and Product Names from a Search
 
         :param search_page_html: The Search Results Page's HTML
         :type search_page_html: str
@@ -210,7 +213,7 @@ class BaseSite(object):
 
     @abstractmethod
     def _parse_name_from_product_page(self):
-        '''Parse the Product's Name from the Product Page HTML
+        '''Abstract - Parse the Product's Name from the Product Page.
 
         :returns: The Product's Name
         :rtype: :obj:`str`
@@ -218,7 +221,7 @@ class BaseSite(object):
 
     @abstractmethod
     def _parse_number_from_product_page(self):
-        '''Parse the Product's Number from the Product Page HTML
+        '''Abstract - Parse the Product's Number from the Product Page.
 
         :returns: The Product's Number
         :rtype: :obj:`str`
@@ -226,7 +229,7 @@ class BaseSite(object):
 
     @abstractmethod
     def _parse_organic_status_from_product_page(self):
-        '''Parse the Product's Organic Status from the Product Page HTM
+        '''Abstract - Parse the Product's Organic Status from the Product Page.
 
         :returns: The Product's Organic Status
         :rtype: :obj:`bool`
@@ -234,7 +237,7 @@ class BaseSite(object):
 
     @abstractmethod
     def _parse_price_from_product_page(self):
-        '''Parse the Product's Price from the Product Page HTM
+        '''Abstract - Parse the Product's Price from the Product Page.
 
         :returns: The Product's Price
         :rtype: :obj:`str`
@@ -242,7 +245,7 @@ class BaseSite(object):
 
     @abstractmethod
     def _parse_weight_from_product_page(self):
-        '''Parse the Product's Weight from the Product Page HTM
+        '''Abstract - Parse the Product's Weight from the Product Page.
 
         :returns: The Product's Weight
         :rtype: :obj:`str`

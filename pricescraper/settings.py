@@ -2,7 +2,7 @@
 
 
 #: The minimum percentage of words in common between SESE's and Other Company's
-#  Product names for them to be considered a match.
+#: Product names for them to be considered a match.
 MINIMUM_NAME_MATCHING_PERCENTAGE = 36
 
 #: The Other Company's to process (by path to Class)

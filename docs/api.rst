@@ -39,10 +39,10 @@ Scraper program.
 --------------------
 
 
-The :ref:`sites<sites_module>` module contains Classes that describe the website the program
-will scrape. Searching and Parsing for each website is defined by a class that
-inherits from the :class:`~sites.base.BaseSite` Class. One object will
-represent a single Product from the Other Company/Website.
+The :ref:`sites<sites_module>` module contains Classes that describe the
+website the program will scrape. Searching and Parsing for each website is
+defined by a class that inherits from the :class:`~sites.base.BaseSite` Class.
+One object will represent a single Product from the Other Company/Website.
 
 Upon initialization, each Object will visit the Other Company's website, find
 the Product that best matches the provided Name, Category and Organic Status

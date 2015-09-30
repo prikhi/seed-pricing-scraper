@@ -21,9 +21,6 @@ class Product(object):
     most similar variety. The current abbreviations/initials are:
 
     * ``bi`` - BotanicalInterests
-    * ``rg`` - Renee's Garden
-    * ``js`` - Johnny's Seeds
-    * ``ts`` - Territorial Seeds
 
 
     .. attribute:: sese_name
@@ -78,7 +75,7 @@ class Product(object):
         This order of attributes in the list is determined by the
         :data:`~settings.SESE_HEADER_ORDER`,
         :data:`~settings.COMPANY_HEADER_ORDER` and
-        :data:`~settings.ATTRIBUTE_HEADER_ORDER` class attributes.
+        :data:`~settings.ATTRIBUTE_HEADER_ORDER` settings.
 
         :returns: The SESE and Other Companies Attributes
         :rtype: :obj:`list`
