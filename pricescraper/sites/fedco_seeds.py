@@ -12,35 +12,7 @@ class FedcoSeeds(BaseSite):
 
     ROOT_URL = 'http://www.fedcoseeds.com'
     SEARCH_URL = ROOT_URL + '/seeds/search?search={}'
-
-    def _find_product_page(self, use_organic=True):
-        '''Find the Product Page from the Company's website.
-
-        If there was only one result, the site will redirect to it's product
-        page. We check for this by looking for the text ``Back to Search
-        Results`` in the search results page.
-
-        :param use_organic: Whether or not to check for a non-organic version
-                            of the product.
-        :type use_organic: bool
-        :returns: The Product Page's HTML or :obj:`None`
-        :rtype: :obj:`str`
-
-        '''
-        search_terms = remove_punctuation(self.sese_name)
-        if use_organic and self.sese_organic:
-            search_terms += " organic"
-        search_page = self._search_site(search_terms)
-
-        was_redirected_to_product = 'Back to Search Results' in search_page
-        if was_redirected_to_product:
-            return search_page
-
-        match = self._get_best_match_or_none(search_page)
-        check_without_organic = (
-            self.sese_organic and match is None and use_organic)
-        return (match if not check_without_organic else
-                self._find_product_page(use_organic=False))
+    SEARCH_REDIRECTED_TEXT = 'Back to Search Results'
 
     def _get_results_from_search_page(self, search_page_html):
         '''Return tuples of names & URLs of search results.'''

@@ -20,30 +20,6 @@ class BotanicalInterests(BaseSite):
     NO_RESULT_TEXT = (
         "Sorry, we couldn’t find any pages that matched your criteria.")
 
-    def _find_product_page(self):
-        '''Find the best matching Product and return the Product Page's HTML
-
-        This method will first search the site using only SESE's Product Name.
-        If no result if found, it will try to use the Product Name and
-        Category.
-
-        BotanicalInterests include ``Organic`` in the Product Names of their
-        Varieties, so if the SESE variety is organic, ``Organic`` will be added
-        to the search terms.
-
-        If no Product is found using the Name and Category, the method will
-        return None instead of any HTML.
-
-        :returns: The Product Page's HTML or :obj:`None`
-        :rtype: :obj:`str`
-        '''
-        search_term = self.sese_name + " " + self.sese_category
-        if self.sese_organic:
-            search_term += " Organic"
-        search = self._search_site(search_term)
-        matching_page = self._get_best_match_or_none(search)
-        return matching_page
-
     def _get_results_from_search_page(self, search_page_html):
         '''Parse the Search Page, creating a list of URLs and Product Names
 

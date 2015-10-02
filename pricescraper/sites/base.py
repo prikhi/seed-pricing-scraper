@@ -35,6 +35,10 @@ class BaseSite(object):
     #: setting this is optional.
     NO_RESULT_TEXT = None
 
+    #: Unique text present on the Site when a search redirects directly to a
+    #: Product's detail page.
+    SEARCH_REDIRECTED_TEXT = None
+
     def __init__(self, name, category, organic):
         '''The Constructor sets the supplied variables as SESE's attributes.
 
@@ -64,16 +68,34 @@ class BaseSite(object):
         self.page_html = self._find_product_page()
         self._parse_and_set_attributes()
 
-    @abstractmethod
-    def _find_product_page(self):
-        '''Abstract - Find the Product Page from the Company's website.
+    def _find_product_page(self, use_organic=True):
+        '''Find the Product Page from the Company's website.
 
-        A Site's implementation of this method usually involves calling
-        :meth:`_search_site` and :meth:`_get_best_match_or_none`.
+        Sometimes when there is only one result, a Site will return the
+        result's details page instead of a search results page. A Site can set
+        the :data:`SEARCH_REDIRECTED_TEXT` class attribute to handle this.
 
+        :param use_organic: Whether or not to check for a non-organic version
+                            of the product.
+        :type use_organic: bool
         :returns: The Product Page's HTML or :obj:`None`
         :rtype: :obj:`str`
+
         '''
+        search_terms = remove_punctuation(self.sese_name)
+        if use_organic and self.sese_organic:
+            search_terms += " organic"
+        search_page = self._search_site(search_terms)
+
+        if self.SEARCH_REDIRECTED_TEXT is not None:
+            if self.SEARCH_REDIRECTED_TEXT in search_page:
+                return search_page
+
+        match = self._get_best_match_or_none(search_page)
+        check_without_organic = (
+            self.sese_organic and match is None and use_organic)
+        return (match if not check_without_organic else
+                self._find_product_page(use_organic=False))
 
     def _parse_and_set_attributes(self):
         '''Parse the Product Page to find and set the Products's attributes
