@@ -39,6 +39,11 @@ class BaseSite(object):
     #: Product's detail page.
     SEARCH_REDIRECTED_TEXT = None
 
+    #: Whether or not to add the SESE category to the search terms. This is
+    #: useful for sites that search for results with any of their search
+    #: instead of results with all of the search terms. Defaults to False.
+    INCLUDE_CATEGORY_IN_SEARCH = False
+
     def __init__(self, name, category, organic):
         '''The Constructor sets the supplied variables as SESE's attributes.
 
@@ -85,6 +90,8 @@ class BaseSite(object):
         search_terms = remove_punctuation(self.sese_name)
         if use_organic and self.sese_organic:
             search_terms += " organic"
+        if self.INCLUDE_CATEGORY_IN_SEARCH:
+            search_terms += ' ' + remove_punctuation(self.sese_category)
         search_page = self._search_site(search_terms)
 
         if self.SEARCH_REDIRECTED_TEXT is not None:
