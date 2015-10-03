@@ -17,8 +17,8 @@ COMPANIES_TO_PROCESS = [
 COMPANY_HEADER_ORDER = (
     'fs',
     'js',
-    'bi',
     'hm',
+    'bi',
 )
 
 #: The output order of each Other Company's attributes
