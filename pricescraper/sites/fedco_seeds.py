@@ -8,7 +8,7 @@ from util import remove_punctuation
 
 class FedcoSeeds(BaseSite):
     '''This class scrapes Product data from FedcoSeeds.com'''
-    ABBREVIATION = 'fs'
+    ABBREVIATION = 'fe'
 
     ROOT_URL = 'http://www.fedcoseeds.com'
     SEARCH_URL = ROOT_URL + '/seeds/search?search={}'
