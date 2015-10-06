@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''This module provides utility functions for the application'''
-
 import html.parser
+from http import cookiejar
 import string
 import urllib.request
 
@@ -16,6 +16,13 @@ def get_class(class_string):
     for comp in parts[1:]:
         module = getattr(module, comp)
     return module
+
+
+urllib.request.install_opener(urllib.request.build_opener(
+    urllib.request.HTTPHandler(),
+    urllib.request.HTTPSHandler(),
+    urllib.request.HTTPCookieProcessor(cookiejar.LWPCookieJar()),
+))
 
 
 def get_page_html(page_url):
