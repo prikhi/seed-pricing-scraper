@@ -13,6 +13,7 @@ COMPANIES_TO_PROCESS = [
     'sites.fedco_seeds.FedcoSeeds',
     'sites.johnny_seeds.JohnnySeeds',
     'sites.high_mowing.HighMowing',
+    'sites.seed_savers.SeedSavers',
 ]
 
 #: The output order of the Other Companies (by abbrieviation)
@@ -20,6 +21,7 @@ COMPANY_HEADER_ORDER = (
     'fs',
     'js',
     'hm',
+    'ss',
     'bi',
 )
 
