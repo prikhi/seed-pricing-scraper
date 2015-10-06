@@ -15,6 +15,7 @@ COMPANIES_TO_PROCESS = [
     'sites.high_mowing.HighMowing',
     'sites.territorial.Territorial',
     'sites.fruition.Fruition',
+    'sites.hudson_valley.HudsonValley',
     'sites.seed_savers.SeedSavers',
 ]
 
@@ -26,6 +27,7 @@ COMPANY_HEADER_ORDER = (
     'ss',
     'ts',
     'fs',
+    'hv',
     'bi',
 )
 
