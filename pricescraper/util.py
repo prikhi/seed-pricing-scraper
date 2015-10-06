@@ -33,14 +33,15 @@ def get_page_html(page_url):
     :returns: The HTML of the page
     :rtype: :obj:`str`
     '''
-    parser = html.parser.HTMLParser()
-    request = urllib.request.Request(page_url, headers={'User-Agent':
-                                                        'Mozilla/5.0'})
+    request = urllib.request.Request(
+        page_url, headers={'User-Agent': 'Mozilla/5.0'})
     page_html = urllib.request.urlopen(request).read()
     try:
         page_html = page_html.decode('iso-8859-1')
     except UnicodeEncodeError:
         pass
+
+    parser = html.parser.HTMLParser()
     unescaped_html = parser.unescape(page_html)
     return unescaped_html
 
