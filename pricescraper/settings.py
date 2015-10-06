@@ -1,5 +1,7 @@
 '''This module defines the basic settings used throughout the application.'''
 
+#: The number of worker processes to create when processing Products.
+WORKER_PROCESS_COUNT = 8
 
 #: The minimum percentage of words in common between SESE's and Other Company's
 #: Product names for them to be considered a match.

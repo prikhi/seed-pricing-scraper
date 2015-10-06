@@ -4,6 +4,7 @@ The Product module holds the class that defines each of SESE's Products and the
 respective Products at Other Companies websites.
 '''
 import settings
+from util import get_class
 
 
 class Product(object):
@@ -90,7 +91,7 @@ class Product(object):
                 attribute_list.append(getattr(self, full_attribute))
         return attribute_list
 
-    def add_companys_product_attributes(self, company_abbrev, attribute_dict):
+    def _add_companys_attributes(self, company_abbrev, attribute_dict):
         '''The ``add_companys_product_attributes`` method uses an abbreviation
         and dictionary of attributes to dynamically add an Other Company's
         product information to the Product object.
@@ -113,3 +114,14 @@ class Product(object):
         for attribute in settings.ATTRIBUTE_HEADER_ORDER:
             company_attribute = attribute_abbrev + "_" + attribute
             setattr(self, company_attribute, attribute_dict[attribute])
+
+    def process(self):
+        '''Pull every website's data and return the completed Product.'''
+        for website in settings.COMPANIES_TO_PROCESS:
+            website = get_class(website)
+            website_product = website(
+                self.sese_name, self.sese_category, self.sese_organic)
+            website_product.get_and_set_product_information()
+            attributes = website_product.get_company_attributes()
+            self._add_companys_attributes(website.ABBREVIATION, attributes)
+        return self

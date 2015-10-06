@@ -16,10 +16,11 @@ afterwards.
 
 '''
 import csv
+from multiprocessing import Pool
 
 from product import Product
 import settings
-from util import create_header_list, get_class
+from util import create_header_list
 
 
 def load_input_file(filename):
@@ -44,6 +45,11 @@ def load_input_file(filename):
     return product_objects
 
 
+def process_product(product):
+    '''Process all configured websites for a Product.'''
+    return product.process()
+
+
 def create_output_file(filename, product_objects):
     '''
     Iterates through a products list, creating a CSV file where each line
@@ -66,16 +72,8 @@ def main():
     '''
     product_objects = load_input_file('./input.csv')
 
-    for product in product_objects:
-        for website in settings.COMPANIES_TO_PROCESS:
-            website = get_class(website)
-            website_product = website(product.sese_name,
-                                      product.sese_category,
-                                      product.sese_organic)
-            website_product.get_and_set_product_information()
-            attributes = website_product.get_company_attributes()
-            product.add_companys_product_attributes(website.ABBREVIATION,
-                                                    attributes)
+    with Pool(settings.WORKER_PROCESS_COUNT) as process_pool:
+        product_objects = process_pool.map(process_product, product_objects)
 
     create_output_file('./output.csv', product_objects)
 
