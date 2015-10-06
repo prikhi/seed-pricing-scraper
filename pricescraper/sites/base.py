@@ -286,6 +286,6 @@ class BaseSite(object):
         :returns: The first match to the Regular Expression or :obj:`None`
         :rtype: :obj:`str`
         '''
-        match = re.search(regex_string, self.page_html)
+        match = re.search(regex_string, self.page_html, re.M)
         if match is not None and match.group(0) is not '':
             return match.group(1)
