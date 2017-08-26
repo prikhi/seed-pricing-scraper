@@ -2,6 +2,12 @@
 Seed Pricing Scraper
 ====================
 
+
+.. image:: https://readthedocs.org/projects/seed-pricing-scraper/badge/?version=latest
+    :target: http://seed-pricing-scraper.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+                
+
 This scrapes various seed company websites for product information & prices.
 
 It uses Python 3, along with Sphinx for documentation & Nose for testing.
